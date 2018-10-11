@@ -24,14 +24,12 @@ public class client {
         int a;
         String s;
         while(check){
-            System.out.print("So ma ban doan la: ");
+            System.err.print(din.readUTF());
             a = sc.nextInt();
             dout.writeInt(a);
             s = din.readUTF();
             System.out.println(s);
-            if("Ban da doan dung so.".equals(s)){
-                check = false;
-            }
+            check = din.readBoolean();
         }
     }
     

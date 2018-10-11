@@ -20,59 +20,45 @@ public class client {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
         Socket cl = new Socket("localhost", 9999);
-        int a,b,c;
-        boolean flag, check = true;
-        String d;
         DataOutputStream dout = new DataOutputStream(cl.getOutputStream());
         DataInputStream din = new DataInputStream(cl.getInputStream());
-        System.out.println("Connected.");
+        boolean flag = false;
+        boolean check = true;
+        int num1 = 0, num2 = 0, c;
         while(check){
-            System.out.println("1.Nhap 2 so.");
-            System.out.println("2.Tong 2 so.");
-            System.out.println("3.Tich 2 so.");
-            System.out.println("4.Thoat.");
-            System.out.print("Nhap lua chon: ");
+            System.out.print(din.readUTF());
             c = sc.nextInt();
             dout.writeInt(c);
             flag = din.readBoolean();
             while(flag == false){
-                System.out.println("Ban chua nhap so. Vui long chon 1 de nhap so.");
-                System.out.println("1.Nhap 2 so.");
-                System.out.println("2.Tong 2 so.");
-                System.out.println("3.Tich 2 so.");
-                System.out.println("4.Thoat.");
-                System.out.print("Nhap lua chon: ");
+                System.out.print(din.readUTF());
                 c = sc.nextInt();
                 dout.writeInt(c);
                 flag = din.readBoolean();
             }
             switch(c){
                 case 1:{
-                    System.out.print("Nhap so thu nhat: ");
-                    a = sc.nextInt();
-                    System.out.print("Nhap so thu hai: ");
-                    b =sc.nextInt();
-                    dout.writeInt(a);
-                    dout.writeInt(b);
+                    System.out.print(din.readUTF());
+                    num1 = sc.nextInt();
+                    dout.writeInt(num1);
+                    System.out.print(din.readUTF());
+                    num2 = sc.nextInt();
+                    dout.writeInt(num2);
                     break;
                 }
                 case 2:{
-                    d = din.readUTF();
-                    System.out.println(d);
+                    System.out.println(din.readUTF());
                     break;
                 }
                 case 3:{
-                    d = din.readUTF();
-                    System.out.println(d);
+                    System.out.println(din.readUTF());
                     break;
-                }
+                }  
                 default:{
-                    System.out.println("Disconnected.");
-                    check = false;
+                    check = din.readBoolean();
                     din.close();
                     dout.close();
                     cl.close();
-                    break;
                 }
             }
         }

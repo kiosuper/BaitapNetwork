@@ -9,37 +9,32 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
-import java.util.Scanner;
 
 public class server {
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
         ServerSocket ss = new ServerSocket(9999);
         Socket srs = ss.accept();
         DataInputStream din = new DataInputStream(srs.getInputStream());
         DataOutputStream dout = new DataOutputStream(srs.getOutputStream());
-        
         Random rd = new Random();
-        int a = rd.nextInt(100);
-        int b;
-        String d;
+        int rand = rd.nextInt(100);
+        int num_guess;
         boolean check = true;
-        System.out.println(a);
+        System.out.println(rand);
         while(check){
-            b = din.readInt();
-            if(b == a){
-                d = "Ban da doan dung so.";
+            dout.writeUTF("Số mà bạn đoán là: ");
+            num_guess = din.readInt();
+            if(num_guess == rand){
                 check = false;
-                dout.writeUTF(d);
+                dout.writeUTF("Bạn đã đoán chính xác số bí mật.");
             }
-            else if(b > a){
-                d = "So ban vua doan lon hon so muc tieu.";
-                dout.writeUTF(d);
+            else if(num_guess > rand){
+                dout.writeUTF("Số bạn vừa đoán lớn hơn số bí mật.");
             }
             else{
-                d = "So ban vua doan nho hon so muc tieu.";
-                dout.writeUTF(d);
+                dout.writeUTF("Số bạn vừa đoán nhỏ hơn số bí mật.");
             }
+            dout.writeBoolean(check);
         }
     }
 }
